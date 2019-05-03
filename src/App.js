@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 
+import Authentication from "./components/Authentication";
 import Posts from "./components/Posts";
 
 import { firestore } from "./firebase";
@@ -9,7 +10,8 @@ class Application extends Component {
   unsubscribe = null;
 
   state = {
-    posts: []
+    posts: [],
+    user: null
   };
 
   async componentDidMount() {
@@ -25,11 +27,12 @@ class Application extends Component {
   }
 
   render() {
-    const { posts } = this.state;
+    const { user, posts } = this.state;
 
     return (
       <main className="Application">
         <h1>Think Piece</h1>
+        <Authentication user={user} />
         <Posts posts={posts} />
       </main>
     );
