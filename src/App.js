@@ -6,17 +6,22 @@ import { firestore } from "./firebase";
 import { collectIdsAndDocs } from "./utilities";
 
 class Application extends Component {
+  unsubscribe = null;
+
   state = {
     posts: []
   };
 
   async componentDidMount() {
-    const snapshot = await firestore.collection("posts").get();
+    // subscribing to changes
+    this.unsubscribe = firestore.collection("posts").onSnapshot((snapshot) => {
+      const posts = snapshot.docs.map(collectIdsAndDocs);
+      this.setState({ posts });
+    });
+  }
 
-    const posts = snapshot.docs.map(collectIdsAndDocs);
-
-    // console.log({ posts });
-    this.setState({ posts });
+  componentWillUnmount() {
+    this.unsubscribe();
   }
 
   handleCreate = async (post) => {
