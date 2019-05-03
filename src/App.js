@@ -19,9 +19,15 @@ class Application extends Component {
     this.setState({ posts });
   }
 
-  handleCreate = (post) => {
+  handleCreate = async (post) => {
     const { posts } = this.state;
-    this.setState({ posts: [post, ...posts] });
+
+    const docRef = await firestore.collection("posts").add(post); // создаст новый post в firestore
+    const doc = await docRef.get(); // теперь нужно обновить состояние приложения, мы можем просто запрашивать каждый раз список всех постов, тоесть не только в componentDidMount, но и после handleCreate, однако мы можем сделать лучше, после содания поста, нам сразу возвращается ссылка на него, соответственно так мы можем получить наш только что созданный post
+
+    const newPost = collectIdsAndDocs(doc);
+
+    this.setState({ posts: [newPost, ...posts] }); // и потом добавить его в state
   };
 
   render() {

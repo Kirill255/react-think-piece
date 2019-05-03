@@ -17,7 +17,6 @@ class AddPost extends Component {
     if (!title || !content) return;
 
     const post = {
-      id: Date.now().toString(),
       title,
       content,
       user: {
