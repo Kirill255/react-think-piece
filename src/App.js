@@ -24,22 +24,13 @@ class Application extends Component {
     this.unsubscribe();
   }
 
-  // т.к. мы подписались на изменения в database, теперь мы просто отправляем запросы add/delete, и состояние обновляется само
-  handleCreate = async (post) => {
-    await firestore.collection("posts").add(post);
-  };
-
-  handleRemove = async (id) => {
-    await firestore.doc(`posts/${id}`).delete();
-  };
-
   render() {
     const { posts } = this.state;
 
     return (
       <main className="Application">
         <h1>Think Piece</h1>
-        <Posts posts={posts} onCreate={this.handleCreate} onRemove={this.handleRemove} />
+        <Posts posts={posts} />
       </main>
     );
   }
