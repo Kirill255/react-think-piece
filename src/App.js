@@ -36,19 +36,14 @@ class Application extends Component {
     ]
   };
 
-  componentDidMount() {
-    const snapshot = firestore
-      .collection("posts")
-      .get()
-      .then((snapshot) => {
-        console.log({ snapshot });
+  async componentDidMount() {
+    const snapshot = await firestore.collection("posts").get();
 
-        snapshot.forEach((doc) => {
-          const id = doc.id;
-          const data = doc.data();
-          console.log({ id, data });
-        });
-      });
+    snapshot.forEach((doc) => {
+      const id = doc.id;
+      const data = doc.data();
+      console.log({ id, data });
+    });
 
     console.log({ snapshot });
   }
