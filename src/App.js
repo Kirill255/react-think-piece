@@ -3,11 +3,12 @@ import React, { Component } from "react";
 import Authentication from "./components/Authentication";
 import Posts from "./components/Posts";
 
-import { firestore } from "./firebase";
+import { auth, firestore } from "./firebase";
 import { collectIdsAndDocs } from "./utilities";
 
 class Application extends Component {
-  unsubscribe = null;
+  unsubscribeFromFirestore = null;
+  unsubscribeFromAuth = null;
 
   state = {
     posts: [],
@@ -16,14 +17,19 @@ class Application extends Component {
 
   async componentDidMount() {
     // subscribing to changes
-    this.unsubscribe = firestore.collection("posts").onSnapshot((snapshot) => {
+    this.unsubscribeFromAuth = auth.onAuthStateChanged((user) => {
+      console.log(user);
+      this.setState({ user });
+    });
+
+    this.unsubscribeFromFirestore = firestore.collection("posts").onSnapshot((snapshot) => {
       const posts = snapshot.docs.map(collectIdsAndDocs);
       this.setState({ posts });
     });
   }
 
   componentWillUnmount() {
-    this.unsubscribe();
+    this.unsubscribeFromFirestore();
   }
 
   render() {
