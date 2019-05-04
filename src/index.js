@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 
 import App from "./App";
 
@@ -11,11 +12,13 @@ import * as serviceWorker from "./serviceWorker";
 import "./index.scss";
 
 ReactDOM.render(
-  <UserProvider>
-    <PostsProvider>
-      <App />
-    </PostsProvider>
-  </UserProvider>,
+  <Router>
+    <UserProvider>
+      <PostsProvider>
+        <App />
+      </PostsProvider>
+    </UserProvider>
+  </Router>,
   document.getElementById("root")
 );
 
