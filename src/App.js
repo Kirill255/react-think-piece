@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import Authentication from "./components/Authentication";
 import Posts from "./components/Posts";
 
-import { auth, firestore } from "./firebase";
+import { auth, firestore, createUserProfileDocument } from "./firebase";
 import { collectIdsAndDocs } from "./utilities";
 
 class Application extends Component {
@@ -17,8 +17,10 @@ class Application extends Component {
 
   async componentDidMount() {
     // subscribing to changes
-    this.unsubscribeFromAuth = auth.onAuthStateChanged((user) => {
-      console.log(user);
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
+      // console.log(userAuth);
+      const user = await createUserProfileDocument(userAuth);
+      // console.log(user);
       this.setState({ user });
     });
 

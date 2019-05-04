@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { auth } from "../firebase";
+import { auth, createUserProfileDocument } from "../firebase";
 
 class SignUp extends Component {
   state = { displayName: "", email: "", password: "" };
@@ -18,9 +18,11 @@ class SignUp extends Component {
 
     if (!displayName || !email || !password) return;
 
+    const photoURL = "https://c.files.bbci.co.uk/1DA9/production/_104739570_male.jpg"; // заглушка
+
     try {
       const { user } = await auth.createUserWithEmailAndPassword(email, password);
-      user.updateProfile({ displayName });
+      createUserProfileDocument(user, { displayName, photoURL });
     } catch (error) {
       console.log(error);
     }
