@@ -3,15 +3,12 @@ import React, { Component } from "react";
 import Authentication from "./components/Authentication";
 import Posts from "./components/Posts";
 
-import { auth, firestore, createUserProfileDocument } from "./firebase";
-import { collectIdsAndDocs } from "./utilities";
+import { auth, createUserProfileDocument } from "./firebase";
 
 class Application extends Component {
-  unsubscribeFromFirestore = null;
   unsubscribeFromAuth = null;
 
   state = {
-    posts: [],
     user: null
   };
 
@@ -23,25 +20,16 @@ class Application extends Component {
       // console.log(user);
       this.setState({ user });
     });
-
-    this.unsubscribeFromFirestore = firestore.collection("posts").onSnapshot((snapshot) => {
-      const posts = snapshot.docs.map(collectIdsAndDocs);
-      this.setState({ posts });
-    });
-  }
-
-  componentWillUnmount() {
-    this.unsubscribeFromFirestore();
   }
 
   render() {
-    const { user, posts } = this.state;
+    const { user } = this.state;
 
     return (
       <main className="Application">
         <h1>Think Piece</h1>
         <Authentication user={user} />
-        <Posts posts={posts} />
+        <Posts />
       </main>
     );
   }
