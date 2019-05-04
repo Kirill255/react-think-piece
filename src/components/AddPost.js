@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { auth, firestore } from "../firebase";
+import { firestore } from "../firebase";
 
 class AddPost extends Component {
   state = { title: "", content: "" };
@@ -14,7 +14,7 @@ class AddPost extends Component {
     event.preventDefault();
 
     const { title, content } = this.state;
-    const { uid = "", displayName = "", email = "", photoURL = "" } = auth.currentUser || {};
+    const { uid, displayName, email, photoURL } = this.props.user;
 
     if (!title || !content) return;
 
