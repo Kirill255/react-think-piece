@@ -4,14 +4,18 @@ import ReactDOM from "react-dom";
 import App from "./App";
 
 import PostsProvider from "./providers/PostsProvider";
+import UserProvider from "./providers/UserProvider";
+
 import * as serviceWorker from "./serviceWorker";
 
 import "./index.scss";
 
 ReactDOM.render(
-  <PostsProvider>
-    <App />
-  </PostsProvider>,
+  <UserProvider>
+    <PostsProvider>
+      <App />
+    </PostsProvider>
+  </UserProvider>,
   document.getElementById("root")
 );
 
