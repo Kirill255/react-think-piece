@@ -1449,6 +1449,38 @@ class PostPage extends Component {
 export default withRouter(PostPage);
 ```
 
+### Updating Security Database Rules
+
+```
+match /comments/{commentId} {
+  allow read;
+  allow create: if request.auth.uid != null && request.resource.data.content != "";
+}
+```
+
+Complete rules:
+
+```
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /posts/{postId} {
+      allow read;
+      allow create: if request.auth.uid != null && request.resource.data.title != "" && request.resource.data.content != "";
+      allow update, delete: if request.auth.uid == resource.data.user.uid;
+      match /comments/{commentId} {
+      	allow read;
+        allow create: if request.auth.uid != null && request.resource.data.content != "";
+      }
+    }
+
+    match /users/{userId} {
+      allow read;
+      allow write: if request.auth.uid == userId;
+    }
+  }
+}
+```
+
 ### Using the Higher Order Component Patter
 
 Now, the comment button doesn't work just yet. We could pass stuff all of the way down, but we've decided that's cross. Let's try another pattern for size.
