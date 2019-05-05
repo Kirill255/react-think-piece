@@ -1347,15 +1347,28 @@ if (this.file) {
 }
 ```
 
-### Setting Security Rules on the Bucket
+### Setting Security Rules on the Bucket (not Database rules, Storage rules!)
 
 You can get really excited, but it's going to blow up.
 
 ```
 service firebase.storage {
   match /b/{bucket}/o {
-    match /user-profile/{userId}/{photoURL} {
+    match /user-profiles/{userId}/{photoURL} {
       allow read, write: if request.auth.uid == userId;
+    }
+  }
+}
+```
+
+or that:
+
+```
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /user-profiles/{userId}/{photoURL} {
+    	allow read;
+      allow write: if request.auth.uid == userId;
     }
   }
 }

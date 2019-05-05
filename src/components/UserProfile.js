@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 
-import { auth, firestore } from "../firebase";
+import { auth, firestore, storage } from "../firebase";
 
 class UserProfile extends Component {
+  imageInput = null;
+
   state = { displayName: "" };
 
   get uid() {
@@ -11,6 +13,10 @@ class UserProfile extends Component {
 
   get userRef() {
     return firestore.doc(`users/${this.uid}`);
+  }
+
+  get file() {
+    return this.imageInput && this.imageInput.files[0];
   }
 
   handleChange = (event) => {
@@ -25,6 +31,18 @@ class UserProfile extends Component {
 
     if (displayName) {
       this.userRef.update({ displayName });
+    }
+
+    // gs://react-think-piece-a2506.appspot.com/user-profiles/GhF0pYwivre0QLGGCSxViXWN8Mi1/Halk.jpg
+    if (this.file) {
+      storage
+        .ref()
+        .child("user-profiles")
+        .child(this.uid)
+        .child(this.file.name)
+        .put(this.file)
+        .then((response) => response.ref.getDownloadURL())
+        .then((photoURL) => this.userRef.update({ photoURL }));
     }
   };
 
@@ -41,6 +59,7 @@ class UserProfile extends Component {
             placeholder="Display Name"
             onChange={this.handleChange}
           />
+          <input type="file" ref={(c) => (this.imageInput = c)} />
           <input className="update" type="submit" value="Update" />
         </form>
       </section>
