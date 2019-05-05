@@ -52,13 +52,9 @@ export const createUserProfileDocument = async (user, additionalData) => {
 export const getUserDocument = async (uid) => {
   if (!uid) return null;
 
+  // раньше возвращали данные из документа (получали ссылку, получали документ, формировали нужные данные), теперь возвращаем ссылку на документ (даже не сам документ, только ссылку), а формировать данные будем при подписке на изменения в документе в UserProvider
   try {
-    const userDocument = await firestore
-      .collection("users")
-      .doc(uid)
-      .get();
-
-    return { uid, ...userDocument.data() };
+    return firestore.collection("users").doc(uid);
   } catch (error) {
     console.error("Error fetching user: ", error.message);
   }
