@@ -7,7 +7,7 @@ const Comment = ({ content, user, createdAt }) => {
     <article className="Comment">
       <span className="Comment--author">{user.displayName}</span>
       <span className="Comment--content">{content}</span>
-      <span className="Comment--timestamp">{moment(createdAt).calendar()}</span>
+      <span className="Comment--timestamp">{moment(createdAt.toDate()).calendar()}</span>
     </article>
   );
 };

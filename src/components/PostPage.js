@@ -3,6 +3,8 @@ import React, { Component } from "react";
 import Post from "./Post";
 import Comments from "./Comments";
 
+import withUser from "../hoc/withUser";
+
 import { firestore } from "../firebase";
 import { collectIdsAndDocs } from "../utilities";
 
@@ -42,11 +44,12 @@ class PostPage extends Component {
   }
 
   createComment = (comment) => {
-    this.commentsRef.add({ ...comment });
+    const { user } = this.props;
+    this.commentsRef.add({ ...comment, user });
   };
 
   render() {
-    // console.log(this.props); // т.к. это компонент роута, в пропс доступны history, location, match
+    // console.log(this.props); // т.к. это компонент роута, в пропс доступны history, location, match, теперь сдесь ещё user из withUser
     const { post, comments } = this.state;
 
     return (
@@ -58,4 +61,4 @@ class PostPage extends Component {
   }
 }
 
-export default PostPage;
+export default withUser(PostPage);

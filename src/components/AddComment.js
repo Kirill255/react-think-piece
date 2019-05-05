@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 
 class AddComment extends Component {
-  state = { content: "" };
+  state = { content: "", createdAt: null };
 
   handleChange = (event) => {
     const { name, value } = event.target;
-    this.setState({ [name]: value });
+    this.setState({ [name]: value, createdAt: new Date() });
   };
 
   handleSubmit = (event) => {
@@ -13,7 +13,7 @@ class AddComment extends Component {
 
     this.props.onCreate(this.state);
 
-    this.setState({ content: "" });
+    this.setState({ content: "", createdAt: null });
   };
 
   render() {
