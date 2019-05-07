@@ -2,6 +2,34 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 # react-think-piece (React && Firebase)
 
+## Firebase
+
+1. `npx firebase-tools login`
+
+2. `npx firebase-tools init`
+
+- **Which Firebase CLI features do you want to set up for this folder? Press Space to select features, then Enter to confirm your choices.** -- Firestore, Functions, Hosting, Storage
+
+- **Select a default Firebase project for this directory.** -- choose your project
+
+- **What file should be used for Firestore Rules.** -- press Enter (default firestore.rules)
+
+- **What file should be used for Firestore indexes.** -- press Enter (default firestore.indexes.json)
+
+- **What language would you like to use to write Cloud Functions.** -- JavaScript
+
+- **Do you want to use ESLint to catch probable bugs and enforce style.** -- No
+
+- **Do you want to install dependencies with npm now.** -- Yes
+
+- **What do you want to use as your public directory.** -- type `build` because CRA create 'build' folder (default public)
+
+- **Configure as a single-page app (rewrite all urls to /index.html).** -- Yes
+
+- **File build/index.html already exists. Overwrite.** -- No
+
+- **What file should be used for Storage Rules.** -- press Enter (default storage.rules)
+
 ## Related
 
 https://github.com/stevekinney/think-piece
