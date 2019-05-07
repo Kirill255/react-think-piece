@@ -1579,6 +1579,19 @@ We'll pick the services we want to use and go with the defaults.
 
 **Note**: Notice how it pulled down our security rules for Firestore and Storage. This means we can actually edit this stuff locally, which is pretty cool.
 
+We needs to overwrite our 'firebase storage' rules in `storage.rules`:
+
+```
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /user-profiles/{userId}/{photoURL} {
+    	allow read;
+      allow write: if request.auth.uid == userId;
+    }
+  }
+}
+```
+
 **Note**: You want to make sure that you're "public" directory is `build` and not `public`.
 
 There is one setting where we do _not_ want the default option:
