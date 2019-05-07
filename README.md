@@ -30,6 +30,15 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 - **What file should be used for Storage Rules.** -- press Enter (default storage.rules)
 
+3. Deploy
+
+```
+npm run deploy
+
+// or for example
+npx firebase-tools deploy --only functions
+```
+
 ## Related
 
 https://github.com/stevekinney/think-piece
@@ -1645,6 +1654,9 @@ Very cool. Let's go ahead and deploy that function and see how it goes.
 
 ```
 firebase deploy --only functions
+
+// or
+npx firebase-tools deploy --only functions
 ```
 
 Okay, let's go visit that on the web.
@@ -1689,6 +1701,13 @@ Let's go with the latter.
 #### Running Functions Locally
 
 Deploying your functions every time can get tedious. Luckily, we can spin up a server to help us test our functions locally.
+
+```
+firebase serve --only functions
+
+// or
+npx firebase-tools serve --only functions
+```
 
 #### Listening for Cloud Firestore Triggers
 
