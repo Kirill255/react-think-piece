@@ -22,3 +22,20 @@ exports.getAllPosts = functions.https.onRequest(async (request, response) => {
 
   response.json({ posts });
 });
+
+exports.sanitizeContent = functions.firestore //
+  .document("posts/{postId}")
+  .onWrite(async (change) => {
+    if (!change.after.exists) return;
+
+    const { content, sanitized } = change.after.data();
+
+    if (content && !sanitized) {
+      return change.after.ref.update({
+        content: content.replace(/CoffeeScript/g, "***"),
+        sanitized: true // добавили флаг, чтобы понимать очищен контент или нет,
+      });
+    }
+
+    return null;
+  });
