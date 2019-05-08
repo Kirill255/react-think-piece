@@ -1722,7 +1722,8 @@ exports.incrementCommentCount = functions.firestore
     const { postId } = context.params;
     const postRef = firestore.doc(`posts/${postId}`);
 
-    const comments = await postRef.get("comments");
+    const snap = await postRef.get("comments");
+    const comments = snap.get("comments");
     return postRef.update({ comments: comments + 1 });
   });
 ```
@@ -1734,14 +1735,15 @@ Can you implement decrementing the comment count?
 (**Note**: We don't have a way to delete comments in the UI. You can either do this in Firebase console—or you can just implement the user interface!)
 
 ```js
-exports.incrementCommentCount = functions.firestore
+exports.decrementCommentCount = functions.firestore
   .document("posts/{postId}/comments/{commentId}")
   .onCreate(async (snapshot, context) => {
     const { postId } = context.params;
     const postRef = firestore.doc(`posts/${postId}`);
 
-    const comments = await postRef.get("comments");
-    return postRef.update({ comments: comments + 1 });
+    const snap = await postRef.get("comments");
+    const comments = snap.get("comments");
+    return postRef.update({ comments: comments - 1 });
   });
 ```
 

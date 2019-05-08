@@ -11,7 +11,7 @@ const belongsToCurrentUser = (currentUser, postAuthor) => {
   return currentUser.uid === postAuthor.uid;
 };
 
-const Post = ({ id, title, content, user, createdAt, stars }) => {
+const Post = ({ id, title, content, user, createdAt, stars, comments }) => {
   const currentUser = useContext(UserContext);
 
   const postRef = firestore.doc(`posts/${id}`);
@@ -30,9 +30,15 @@ const Post = ({ id, title, content, user, createdAt, stars }) => {
         <div>
           <p>
             <span role="img" aria-label="star">
-              ⭐️
+              ⭐️&nbsp;
             </span>
             {stars}
+          </p>
+          <p>
+            <span role="img" aria-label="comments">
+              🙊&nbsp;
+            </span>
+            {comments}
           </p>
           <p>Posted by {user.displayName}</p>
           <p>{moment(createdAt.toDate()).calendar()}</p>
@@ -63,7 +69,8 @@ Post.defaultProps = {
     photoURL: "https://www.fillmurray.com/300/300"
   },
   createdAt: new Date(),
-  stars: 0
+  stars: 0,
+  comments: 0
 };
 
 export default Post;
